@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class User {
 
    @Id
+   @Column(name = "id")
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
@@ -19,13 +20,32 @@ public class User {
    @Column(name = "email")
    private String email;
 
+   @OneToOne(cascade=CascadeType.ALL)
+   @JoinColumn(name = "car_id", referencedColumnName = "id")
+   private Car car;
+
+   public Car getCar() {
+      return this.car;
+   }
+
+   public void setCar(Car car) {//2
+      this.car = car;
+   }
+
    public User() {}
-   
-   public User(String firstName, String lastName, String email) {
+
+   public User(String firstName, String lastName, String email) {//2
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
    }
+
+//   public User(String firstName, String lastName, String email, Car car) {//1
+//      this.firstName = firstName;
+//      this.lastName = lastName;
+//      this.email = email;
+//      this.car = car;
+//   }
 
    public Long getId() {
       return id;
@@ -57,5 +77,16 @@ public class User {
 
    public void setEmail(String email) {
       this.email = email;
+   }
+
+   @Override
+   public String toString() {
+      return "User{" +
+              "id=" + id +
+              ", firstName='" + firstName + '\'' +
+              ", lastName='" + lastName + '\'' +
+              ", email='" + email + '\'' +
+              ", car=" + car +
+              '}';
    }
 }
